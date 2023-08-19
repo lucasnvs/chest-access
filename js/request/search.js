@@ -1,7 +1,7 @@
-import { config, seeAll } from "./config.js";
+import { seeAll } from "./config.js";
 import { requestALL } from "./fetch.js";
 import { mapItem } from "./mapper.js";
-var { ITEM_SEARCHED } = config;
+var ITEM_SEARCHED = "Peça de Arma"; // fazer choice
 
 export async function getPersonLog(idName) {
     let all = await requestALL({ security: false, limit: 100});

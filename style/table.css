@@ -1,5 +1,6 @@
 .tabela {
     width: 70%;
+    max-height: 75%;
 }
 
 .thead {
@@ -24,7 +25,7 @@
     width: 100%;
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
-    max-height: 600px;
+    max-height: 90%;
     overflow-y: scroll;
     scrollbar-width: auto;
     background-color: #FFF;

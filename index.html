@@ -9,28 +9,11 @@
     <link rel="stylesheet" href="style/table.css">
     <link rel="stylesheet" href="style/modal.css">
     <script src="js/index.js" type="module" async></script>
+    <script src="js/database/db.js" type="module" async></script>
 </head>
 <body>
     <aside class="sidebar">
-        <div class="top-config">
-            <div class="input-container">
-                <label for="token">TOKEN DE USUÁRIO:</label>
-                <input id="token" type="text" placeholder="Seu token de usuário aqui...">
-            </div>
-            <div class="input-container">
-                <label for="id-bau">ID DO CHAT DE BAU:</label>
-                <input id="id-bau" type="text" placeholder="Seu ID do baú aqui...">
-            </div>
-            <div class="input-container">
-                <label for="id-init-message">ID MENSAGEM DE INICIO:</label>
-                <input id="id-init-message" type="text" placeholder="Seu ID de mensagem inicial...">
-            </div>
-            <div class="container-btns">
-                <button id="lock-config" class="btn"><img src="assets/icons/lock-closed-outline.svg"></button>
-                <button id="save-config" class="btn">Salvar</button>
-            </div>
-        </div>
-
+        
         <div id="action-container">
             <button id="registry-partner" class="action btn"><img src="assets/icons/person-outline.svg">Cadastrar Integrante</button>
         </div>
@@ -42,6 +25,9 @@
                 
             </select>
             <button class="btn" id="btn-search-table">Buscar</button>
+        </div>
+        <div class="table-info-selected">
+            
         </div>
     </div>
 </body>

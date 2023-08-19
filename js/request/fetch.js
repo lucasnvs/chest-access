@@ -1,7 +1,7 @@
-import { config, seeAll } from "./config.js";
+import { seeAll } from "./config.js";
 import { mapRawObjects } from "./mapper.js";
 
-var { TOKEN, ID_CHAT_BAU, LAST_ID_MESSAGE } = config;
+var { TOKEN, ID_CHAT_BAU, LAST_ID_MESSAGE } = localStorage.get("config");
 
 export const SETTED_LAST_ID_MESSAGE = LAST_ID_MESSAGE;
 

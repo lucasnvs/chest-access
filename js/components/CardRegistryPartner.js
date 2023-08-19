@@ -1,3 +1,5 @@
+import { renderSelect } from "../index.js";
+
 export class CardRegistryPartner {
     constructor(title) {
         this.title = title;
@@ -75,8 +77,9 @@ export class CardRegistryPartner {
 
         addButton.addEventListener("click", () => {
             let valorInput = this.element.querySelector("#partner-idname").value;
-            console.log(valorInput)
+            localStorage.set("partners", { partner: valorInput });
             this.removeFromDocument();
+            renderSelect();
         });
     }
 }

@@ -5,12 +5,12 @@
 //     ITEM_SEARCHED: "Peça de Arma" 
 // }
 
-export const config = { // lucasnvs | Ballas
-    TOKEN: "NTgxNjYzNjg3NzM2Mjk1NDU0.GDyeEH.pwmfmqAVvGNqiui17lkV8N-ecr9fYMeooY5SGI",
-    ID_CHAT_BAU: "1083483431238905896",
-    LAST_ID_MESSAGE: "1140494558426300488",
-    ITEM_SEARCHED: "Folha de Coca" 
-}
+// export const config = { // lucasnvs | Ballas
+//     TOKEN: "NTgxNjYzNjg3NzM2Mjk1NDU0.GDyeEH.pwmfmqAVvGNqiui17lkV8N-ecr9fYMeooY5SGI",
+//     ID_CHAT_BAU: "1083483431238905896",
+//     LAST_ID_MESSAGE: "1140494558426300488",
+//     ITEM_SEARCHED: "Folha de Coca" 
+// }
 
 export const seeAll = true;
 

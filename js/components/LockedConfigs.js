@@ -1,10 +1,13 @@
 export class LockedConfigs {
     constructor() {
+        this.locked = false;
         this.element = this.generateElement();
         this.setupEventListeners();
     }
 
     generateElement() {
+        var { TOKEN, ID_CHAT_BAU, LAST_ID_MESSAGE } = localStorage.get("config") || "";       
+
         const topConfigDiv = document.createElement("div");
         topConfigDiv.classList.add("top-config");
 
@@ -14,6 +17,7 @@ export class LockedConfigs {
         tokenLabel.setAttribute("for", "token");
         tokenLabel.textContent = "TOKEN DE USUÁRIO:";
         const tokenInput = document.createElement("input");
+        tokenInput.value = TOKEN;
         tokenInput.setAttribute("id", "token");
         tokenInput.setAttribute("type", "text");
         tokenInput.setAttribute("placeholder", "Seu token de usuário aqui...");
@@ -26,6 +30,7 @@ export class LockedConfigs {
         idBauLabel.setAttribute("for", "id-bau");
         idBauLabel.textContent = "ID DO CHAT DE BAU:";
         const idBauInput = document.createElement("input");
+        idBauInput.value = ID_CHAT_BAU;
         idBauInput.setAttribute("id", "id-bau");
         idBauInput.setAttribute("type", "text");
         idBauInput.setAttribute("placeholder", "Seu ID do baú aqui...");
@@ -38,6 +43,7 @@ export class LockedConfigs {
         idInitMessageLabel.setAttribute("for", "id-init-message");
         idInitMessageLabel.textContent = "ID MENSAGEM DE INICIO:";
         const idInitMessageInput = document.createElement("input");
+        idInitMessageInput.value = LAST_ID_MESSAGE;
         idInitMessageInput.setAttribute("id", "id-init-message");
         idInitMessageInput.setAttribute("type", "text");
         idInitMessageInput.setAttribute("placeholder", "Seu ID de mensagem inicial...");
@@ -68,7 +74,7 @@ export class LockedConfigs {
     }
 
     addToDocument(targetElement) {
-        targetElement.appendChild(this.element);
+        targetElement.insertAdjacentElement("afterbegin", this.element);
     }
 
     removeFromDocument() {
@@ -77,19 +83,49 @@ export class LockedConfigs {
         }
     }
 
-    toggleLock() {
-        const inputToken = this.element.querySelector("token");
-        const inputIDBAU = this.element.querySelector("id-bau");
-        const inputID_INIT = this.element.querySelector("id-init-message");
+    toggleLock() { 
+        let bool = !this.locked;
 
-        /// finish
+        const inputToken = this.element.querySelector("#token");
+        const inputIDBAU = this.element.querySelector("#id-bau");
+        const inputID_INIT = this.element.querySelector("#id-init-message");
+        const btn_save = this.element.querySelector("#save-config");
+
+        console.log(bool)
+        inputToken.toggleAttribute("disabled");
+        inputIDBAU.toggleAttribute("disabled");
+        inputID_INIT.toggleAttribute("disabled");
+        btn_save.toggleAttribute("disabled");
+
+        if(bool) {
+            document.querySelector("img").src = "assets/icons/lock-open-outline.svg"
+        } else {
+            document.querySelector("img").src = "assets/icons/lock-closed-outline.svg"     
+        }
+        this.locked = bool;
     }
 
     setupEventListeners() {
-        const btn_save = this.element.querySelector("save-config");
+        const btn_save = this.element.querySelector("#save-config");
+        const btn_lock = this.element.querySelector("#lock-config");
+        
+        const inputToken = this.element.querySelector("#token");
+        const inputIDBAU = this.element.querySelector("#id-bau");
+        const inputID_INIT = this.element.querySelector("#id-init-message");
 
+
+        btn_lock.addEventListener("click", () => {
+            this.toggleLock();
+        })
+        
         btn_save.addEventListener("click", () => {
-            toggleLock()
+            let configs = {
+                    TOKEN: inputToken.value,
+                    ID_CHAT_BAU: inputIDBAU.value,
+                    LAST_ID_MESSAGE: inputID_INIT.value
+            }
+            localStorage.setItem("config", JSON.stringify(configs));
+            this.toggleLock();
         })
     }
 }
