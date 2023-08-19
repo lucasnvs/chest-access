@@ -30,7 +30,7 @@ var element = document.getElementById("identity-select");
 export const renderSelect = () => {
     element.textContent = "";
 
-    var partnerList = localStorage.get("partners");
+    var partnerList = localStorage.get("partners") || [];
     let option = document.createElement("option");
     option.value = "all";
     option.text = "Todos";

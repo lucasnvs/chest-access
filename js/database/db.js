@@ -23,3 +23,12 @@ Storage.prototype.set = function (key, object) {
     }
     return false;
 };
+
+if(localStorage.get("config") == null) {
+    const config = {
+        TOKEN: "",
+        ID_CHAT_BAU: "",
+        LAST_ID_MESSAGE: ""
+    }
+    localStorage.setItem("config", JSON.stringify(config))
+}

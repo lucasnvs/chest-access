@@ -14,7 +14,7 @@ function getLastId() {
     return LAST_ID_MESSAGE;
 }
 
-const headers = {
+var headers = {
     "Authorization": `${TOKEN}`
 };
 

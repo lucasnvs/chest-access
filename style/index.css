@@ -129,5 +129,22 @@ body {
 }
 
 .table-info-selected {
-    
+    padding: 15px 0px;
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    justify-content: center;
+    gap: 20px;
+}
+
+.div-message {
+    width: fit-content;
+    border-radius: 4px;
+    background-color: var(--light-purple);
+    padding: 10px 15px;
+    font-weight: 600;
+    color: #FFF;
+}
+.div-message span {
+    color: rgb(36, 200, 36);
 }
