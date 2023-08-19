@@ -1,0 +1,70 @@
+.tabela {
+    width: 70%;
+}
+
+.thead {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 10px 20px;
+    background-color: var(--main-purple);
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.thead th {
+    width: 100%;
+    text-align: left;
+    padding: 10px;
+    color: #FFF;
+}
+
+.table-container {
+    width: 100%;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    max-height: 600px;
+    overflow-y: scroll;
+    scrollbar-width: auto;
+    background-color: #FFF;
+}
+
+.table-container::-webkit-scrollbar {
+    width: 11px; 
+}
+
+.table-container::-webkit-scrollbar-thumb {
+    background-color: var(--light-purple); 
+    border-radius: 4px; 
+}
+
+.table-container::-webkit-scrollbar-track {
+    background-color: #f0f0f0; 
+}
+
+.tbody {
+    height: 550px;
+    display: block;
+    width: 100%;
+}
+
+.tbody tr {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 0 20px;
+}
+.tbody tr:nth-child(even) {
+    background-color: var(--ultra-light-color);
+}
+
+.tbody td {
+    width: 100%;
+    text-align: left;
+    padding: 15px;
+    font-size: 15px;
+    font-weight: 500;
+    color: #323230;
+}
