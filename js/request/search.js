@@ -1,7 +1,7 @@
 import { seeAll } from "./config.js";
 import { requestALL } from "./fetch.js";
 import { mapItem } from "./mapper.js";
-var ITEM_SEARCHED = "Peça de Arma"; // fazer choice
+var ITEM_SEARCHED = "Folha de Coca"; // fazer choice
 
 export async function getPersonLog(idName) {
     let all = await requestALL({ security: false, limit: 100});
@@ -14,15 +14,15 @@ export async function getPersonLog(idName) {
     return personLOG;
 } 
 
-export async function getSomaItem(person) {
+export function getSomaItem(personLOG) {
     let somaItem = 0;
     let logsMenos40 = 0;
-    let request = await getPersonLog(person);
+    let request = personLOG;
 
     let retiradaSemente = request.filter(item => item["ACTION"] === "GUARDOU" && mapItem(item["ITEM"])[1] === ITEM_SEARCHED);
     console.log(`GUARDANDO ${ITEM_SEARCHED.toUpperCase()}:`)
     console.table(retiradaSemente)
-    if(retiradaSemente.length === 0) console.log(`!!!!!!!!!!!!! ${person} NÃO GUARDOU nenhuma ${ITEM_SEARCHED} no baú até aonde foi lido.`)
+    if(retiradaSemente.length === 0) console.log(`!!!!!!!!!!!!! ${personLOG} NÃO GUARDOU nenhuma ${ITEM_SEARCHED} no baú até aonde foi lido.`)
     retiradaSemente.forEach(item => {
         let val = mapItem(item["ITEM"])[0];
 
@@ -34,8 +34,8 @@ export async function getSomaItem(person) {
         }
     })
     console.log(`|| DEPÓSITOS DE MENOS DE 40x ${ITEM_SEARCHED} NÂO FORAM CONTADOS! Total de depósitos com menos de 40x ${ITEM_SEARCHED}: ${logsMenos40}`);
-    console.log(`|| ${person} Depositou o total de ${ITEM_SEARCHED} no Baú: ${somaItem}`);
-    return somaItem;
+    console.log(`|| ${personLOG} Depositou o total de ${ITEM_SEARCHED} no Baú: ${somaItem}`);
+    return {total: somaItem, data: retiradaSemente, logsUnder: logsMenos40};
 }
 
 async function getItemQuantity(param_searched) {

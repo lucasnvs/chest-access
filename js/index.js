@@ -1,11 +1,14 @@
 import { CardRegistryPartner } from "./components/CardRegistryPartner.js";
 import { Table } from "./components/table.js";
-import { getPersonLog } from "./request/search.js";
+import { getPersonLog, getSomaItem } from "./request/search.js";
 import { personIdName } from "./request/config.js";
 import { SETTED_LAST_ID_MESSAGE, setLastId } from "./request/fetch.js";
 import { LockedConfigs } from "./components/LockedConfigs.js";
+import { FarmArea } from "./components/FarmArea.js";
 
 const main = document.getElementById("main");
+const tablepos = document.querySelector(".cont");
+const table_info = document.querySelector(".table-info-selected");
 const sidebar = document.querySelector(".sidebar");
 
 var valor = [
@@ -49,13 +52,29 @@ const config_locker = new LockedConfigs();
 config_locker.addToDocument(sidebar);
 
 const table_principal = new Table(valor);
-table_principal.addToDocument(main);
+table_principal.addToDocument(tablepos);
+
+var personLOG = [];
 
 document.getElementById("btn-search-table").addEventListener("click", async () => {
-    let person = await getPersonLog(element.value);
-    table_principal.setData(person);
+    personLOG = await getPersonLog(element.value);
+    table_principal.setData(personLOG);
     setLastId(SETTED_LAST_ID_MESSAGE);
 })
+
+document.getElementById("get-farm").addEventListener("click", async () => {
+    let area = table_info.querySelector(".farm-area");
+    if(area) {
+        area.remove();
+    }
+
+    let farm = getSomaItem(personLOG);
+
+    var farm_area = new FarmArea(farm.data, farm.total, farm.logsUnder);
+
+    farm_area.removeFromDocument();
+    farm_area.addToDocument(table_info);
+});
 
 document.getElementById("registry-partner").addEventListener("click", () => {
     const cardRegistry = new CardRegistryPartner("Registrar Parceiro:");

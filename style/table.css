@@ -1,5 +1,6 @@
 .tabela {
-    width: 70%;
+    grid-area: table;
+    width: 100%;
     max-height: 75%;
 }
 

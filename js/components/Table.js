@@ -1,10 +1,12 @@
 export class Table {
     constructor(data) {
-        this.data = data;
-        this.header = Object.keys(this.data[0]);
-        console.log(this.header)
-        this.element = this.generateElement();
-        this.setData(this.data);
+        if(data.length > 0) {
+            this.data = data;
+            this.header = Object.keys(this.data[0]);
+            this.element = this.generateElement();
+            this.setData(this.data);
+        }
+
     }
 
     generateElement() {
@@ -32,6 +34,8 @@ export class Table {
     }
 
     addToDocument(targetElement) {
+        if(this.element == null) return;
+
         targetElement.appendChild(this.element);
     }
 
