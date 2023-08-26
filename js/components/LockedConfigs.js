@@ -1,6 +1,6 @@
 export class LockedConfigs {
-    constructor() {
-        this.locked = false;
+    constructor(isLocked) {
+        this.locked = isLocked;
         this.element = this.generateElement();
         this.setupEventListeners();
     }
@@ -17,6 +17,7 @@ export class LockedConfigs {
         tokenLabel.setAttribute("for", "token");
         tokenLabel.textContent = "TOKEN DE USUÁRIO:";
         const tokenInput = document.createElement("input");
+        this.locked ? tokenInput.setAttribute("disabled", true) : "";
         tokenInput.value = TOKEN;
         tokenInput.setAttribute("id", "token");
         tokenInput.setAttribute("type", "text");
@@ -30,6 +31,7 @@ export class LockedConfigs {
         idBauLabel.setAttribute("for", "id-bau");
         idBauLabel.textContent = "ID DO CHAT DE BAU:";
         const idBauInput = document.createElement("input");
+        this.locked ? idBauInput.setAttribute("disabled", true) : "";
         idBauInput.value = ID_CHAT_BAU;
         idBauInput.setAttribute("id", "id-bau");
         idBauInput.setAttribute("type", "text");
@@ -44,6 +46,7 @@ export class LockedConfigs {
         idInitMessageLabel.textContent = "ID MENSAGEM DE INICIO:";
         const idInitMessageInput = document.createElement("input");
         idInitMessageInput.value = LAST_ID_MESSAGE;
+        this.locked ? idInitMessageInput.setAttribute("disabled", true) : "";
         idInitMessageInput.setAttribute("id", "id-init-message");
         idInitMessageInput.setAttribute("type", "text");
         idInitMessageInput.setAttribute("placeholder", "Seu ID de mensagem inicial...");
@@ -59,6 +62,7 @@ export class LockedConfigs {
         lockIcon.setAttribute("src", "assets/icons/lock-closed-outline.svg");
         lockConfigButton.appendChild(lockIcon);
         const saveConfigButton = document.createElement("button");
+        this.locked ? saveConfigButton.setAttribute("disabled", true) : "";
         saveConfigButton.setAttribute("id", "save-config");
         saveConfigButton.classList.add("btn");
         saveConfigButton.textContent = "Salvar";
@@ -91,7 +95,6 @@ export class LockedConfigs {
         const inputID_INIT = this.element.querySelector("#id-init-message");
         const btn_save = this.element.querySelector("#save-config");
 
-        console.log(bool)
         inputToken.toggleAttribute("disabled");
         inputIDBAU.toggleAttribute("disabled");
         inputID_INIT.toggleAttribute("disabled");

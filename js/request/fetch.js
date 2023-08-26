@@ -1,4 +1,3 @@
-import { seeAll } from "./config.js";
 import { mapRawObjects } from "./mapper.js";
 
 var { TOKEN, ID_CHAT_BAU, LAST_ID_MESSAGE } = localStorage.get("config");
@@ -6,8 +5,8 @@ var { TOKEN, ID_CHAT_BAU, LAST_ID_MESSAGE } = localStorage.get("config");
 export const SETTED_LAST_ID_MESSAGE = LAST_ID_MESSAGE;
 
 export function setLastId(last) {
-    LAST_ID_MESSAGE = last;
-    seeAll ? console.log("Ultimo ID de Mensagem requisitado: " + LAST_ID_MESSAGE) : "";
+    LAST_ID_MESSAGE = last
+    console.log("Ultimo ID de Mensagem requisitado: " + last);
 }
 
 function getLastId() {
@@ -18,7 +17,7 @@ var headers = {
     "Authorization": `${TOKEN}`
 };
 
-async function fetchLOG(logChannel) {
+async function GET_LOG(logChannel) {
     let res = await fetch(logChannel, {
         headers: headers
     })
@@ -36,7 +35,7 @@ async function fetchLOG(logChannel) {
     return res;
 }
 
-export async function requestALL({ security, limit } = { security: true, limit: 50 }) {
+export async function GET_ALL_LOG({ security, limit } = { security: true, limit: 50 }) {
     let flag = true;
     let count = 0;
     var retorno = [];
@@ -47,11 +46,10 @@ export async function requestALL({ security, limit } = { security: true, limit: 
         count++;
 
         let url = `https://discord.com/api/v9/channels/${ID_CHAT_BAU}/messages?after=${getLastId()}&limit=${limit}`;
-        let valor = await fetchLOG(url);
+        let valor = await GET_LOG(url);
         if (valor.length === 0) {
-            seeAll ? console.log("Requisições Finalizadas!") : "";
             flag = false;
-            break;
+            console.log("Requisições finalizadas!");    
         }
         retorno.push(...valor);
     }

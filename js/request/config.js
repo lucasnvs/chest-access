@@ -12,10 +12,6 @@
 //     ITEM_SEARCHED: "Folha de Coca" 
 // }
 
-export const seeAll = true;
-
-export const personIdName = "417 Vitor Souza";
-
 // 617 Felipe Alves ExtraGG Scamander
 // 3028 Matheus Triunfo
 // 101 Diogo Contijo

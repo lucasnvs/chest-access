@@ -1,19 +1,23 @@
 export class Table {
     constructor(data) {
-        if(data.length > 0) {
+        if(data != null) {
             this.data = data;
-            this.header = Object.keys(this.data[0]);
+            this.element = this.generateElement();
+            this.setData(this.data);
+        } else {
+            this.data = [{ SEM: "", DADOS: "", SEM: "", DADOS: ""}];
             this.element = this.generateElement();
             this.setData(this.data);
         }
-
     }
 
     generateElement() {
+        let header = Object.keys(this.data[0]);
+
         let divTabelaInteira = document.createElement("div");
         divTabelaInteira.className = "tabela";
 
-        let ths = this.header.map( head => {
+        let ths = header.map( head => {
             let th = document.createElement("th");
             th.textContent = head;
             return th;
@@ -30,6 +34,15 @@ export class Table {
         table_container.appendChild(tbody);
         divTabelaInteira.appendChild(thead);
         divTabelaInteira.appendChild(table_container);
+
+        if(this.element) {
+            let el = this.element.querySelector(".tabela");
+            el.textContent = "";
+            el.appendChild(thead);
+            el.appendChild(table_container);
+            return;
+        }
+
         return divTabelaInteira;
     }
 
@@ -47,12 +60,14 @@ export class Table {
 
     setData(data) {
         this.data = data;
+        let header = Object.keys(this.data[0]);
+
         let el = this.element.querySelector(".tbody");
         el.textContent = "";
         this.data.forEach( item => {
             let tr = document.createElement("tr");
     
-            this.header.forEach( head => {
+            header.forEach( head => {
                 let td = document.createElement("td");
                 td.textContent = item[head];
                 tr.appendChild(td);

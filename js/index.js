@@ -1,7 +1,6 @@
 import { CardRegistryPartner } from "./components/CardRegistryPartner.js";
-import { Table } from "./components/table.js";
+import { Table } from "./components/Table.js";
 import { getPersonLog, getSomaItem } from "./request/search.js";
-import { personIdName } from "./request/config.js";
 import { SETTED_LAST_ID_MESSAGE, setLastId } from "./request/fetch.js";
 import { LockedConfigs } from "./components/LockedConfigs.js";
 import { FarmArea } from "./components/FarmArea.js";
@@ -10,23 +9,6 @@ const main = document.getElementById("main");
 const tablepos = document.querySelector(".cont");
 const table_info = document.querySelector(".table-info-selected");
 const sidebar = document.querySelector(".sidebar");
-
-var valor = [
-    { ACTION: "GUARDOU", PASSAPORTE: "3029 Brito Triunfo", ITEM: "30x RepairKit", BAU: "chest:BALLAS", DATA: "17/08/2023" },
-    { ACTION: "GUARDOU", PASSAPORTE: "3029 Brito Triunfo", ITEM: "30x RepairKit", BAU: "chest:BALLAS", DATA: "17/08/2023" },
-    { ACTION: "GUARDOU", PASSAPORTE: "3029 Brito Triunfo", ITEM: "30x RepairKit", BAU: "chest:BALLAS", DATA: "17/08/2023" },
-    { ACTION: "GUARDOU", PASSAPORTE: "3029 Brito Triunfo", ITEM: "30x RepairKit", BAU: "chest:BALLAS", DATA: "17/08/2023" },
-    { ACTION: "GUARDOU", PASSAPORTE: "3029 Brito Triunfo", ITEM: "30x RepairKit", BAU: "chest:BALLAS", DATA: "17/08/2023" },
-    { ACTION: "GUARDOU", PASSAPORTE: "3029 Brito Triunfo", ITEM: "30x RepairKit", BAU: "chest:BALLAS", DATA: "17/08/2023" },
-    { ACTION: "GUARDOU", PASSAPORTE: "3029 Brito Triunfo", ITEM: "30x RepairKit", BAU: "chest:BALLAS", DATA: "17/08/2023" },
-    { ACTION: "GUARDOU", PASSAPORTE: "3029 Brito Triunfo", ITEM: "30x RepairKit", BAU: "chest:BALLAS", DATA: "17/08/2023" },
-    { ACTION: "GUARDOU", PASSAPORTE: "3029 Brito Triunfo", ITEM: "30x RepairKit", BAU: "chest:BALLAS", DATA: "17/08/2023" },
-    { ACTION: "GUARDOU", PASSAPORTE: "3029 Brito Triunfo", ITEM: "30x RepairKit", BAU: "chest:BALLAS", DATA: "17/08/2023" },
-    { ACTION: "GUARDOU", PASSAPORTE: "3029 Brito Triunfo", ITEM: "30x RepairKit", BAU: "chest:BALLAS", DATA: "17/08/2023" },
-    { ACTION: "GUARDOU", PASSAPORTE: "3029 Brito Triunfo", ITEM: "30x RepairKit", BAU: "chest:BALLAS", DATA: "17/08/2023" },
-    { ACTION: "GUARDOU", PASSAPORTE: "3029 Brito Triunfo", ITEM: "30x RepairKit", BAU: "chest:BALLAS", DATA: "17/08/2023" },
-    { ACTION: "GUARDOU", PASSAPORTE: "3029 Brito Triunfo", ITEM: "30x RepairKit", BAU: "chest:BALLAS", DATA: "17/08/2023" },
-]
 
 var element = document.getElementById("identity-select");
 
@@ -48,17 +30,35 @@ export const renderSelect = () => {
 }
 
 renderSelect();
-const config_locker = new LockedConfigs();
+
+const isLocked = localStorage.get("config") != null;
+const config_locker = new LockedConfigs(isLocked);
 config_locker.addToDocument(sidebar);
 
-const table_principal = new Table(valor);
+const table_principal = new Table();
 table_principal.addToDocument(tablepos);
+
+var _LOG = [];
+function getLOG() {
+    return _LOG;
+}
+
+export function setLOG(log) {
+    _LOG = log;
+}
 
 var personLOG = [];
 
 document.getElementById("btn-search-table").addEventListener("click", async () => {
-    personLOG = await getPersonLog(element.value);
-    table_principal.setData(personLOG);
+    console.log(_LOG)
+    console.log(element.value)
+    personLOG = await getPersonLog(element.value, getLOG());
+    console.log(personLOG)
+    if(personLOG.length > 0) {
+        table_principal.setData(personLOG);
+    } else {
+        alert(element.value + " não adicionou nada no baú!");
+    }
     setLastId(SETTED_LAST_ID_MESSAGE);
 })
 
@@ -69,11 +69,13 @@ document.getElementById("get-farm").addEventListener("click", async () => {
     }
 
     let farm = getSomaItem(personLOG);
+    if(farm.data.length > 0) {
+        var farm_area = new FarmArea(farm.data, farm.total, farm.logsUnder);
+        farm_area.addToDocument(table_info);
+    } else {
+        alert("Jogador não adicionou FARM ao baú!");
+    }
 
-    var farm_area = new FarmArea(farm.data, farm.total, farm.logsUnder);
-
-    farm_area.removeFromDocument();
-    farm_area.addToDocument(table_info);
 });
 
 document.getElementById("registry-partner").addEventListener("click", () => {
