@@ -1,9 +1,9 @@
 import { CardRegistryPartner } from "./components/CardRegistryPartner.js";
 import { Table } from "./components/Table.js";
 import { getPersonLog, getSomaItem } from "./request/search.js";
-import { SETTED_LAST_ID_MESSAGE, setLastId } from "./request/fetch.js";
 import { LockedConfigs } from "./components/LockedConfigs.js";
 import { FarmArea } from "./components/FarmArea.js";
+import { Dinamyc } from "./Dinamyc.js";
 
 const main = document.getElementById("main");
 const tablepos = document.querySelector(".cont");
@@ -38,28 +38,21 @@ config_locker.addToDocument(sidebar);
 const table_principal = new Table();
 table_principal.addToDocument(tablepos);
 
-var _LOG = [];
-function getLOG() {
-    return _LOG;
-}
+export const _LOG_ = new Dinamyc([]);
 
-export function setLOG(log) {
-    _LOG = log;
-}
+export const PERSONAL_LOG = new Dinamyc([]);
 
-var personLOG = [];
+document.getElementById("btn-search-table").addEventListener("click", async (e) => {
+    e.target.setAttribute("disabled", true);
+    PERSONAL_LOG.value = await getPersonLog(element.value, _LOG_.value);
 
-document.getElementById("btn-search-table").addEventListener("click", async () => {
-    console.log(_LOG)
-    console.log(element.value)
-    personLOG = await getPersonLog(element.value, getLOG());
-    console.log(personLOG)
-    if(personLOG.length > 0) {
-        table_principal.setData(personLOG);
+    if(PERSONAL_LOG.value.length > 0) {
+        table_principal.setData(PERSONAL_LOG.value);
     } else {
         alert(element.value + " não adicionou nada no baú!");
     }
-    setLastId(SETTED_LAST_ID_MESSAGE);
+    e.target.removeAttribute("disabled");
+
 })
 
 document.getElementById("get-farm").addEventListener("click", async () => {
@@ -68,7 +61,7 @@ document.getElementById("get-farm").addEventListener("click", async () => {
         area.remove();
     }
 
-    let farm = getSomaItem(personLOG);
+    let farm = getSomaItem(PERSONAL_LOG.value);
     if(farm.data.length > 0) {
         var farm_area = new FarmArea(farm.data, farm.total, farm.logsUnder);
         farm_area.addToDocument(table_info);

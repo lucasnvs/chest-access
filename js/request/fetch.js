@@ -1,16 +1,13 @@
+import { Dinamyc } from "../Dinamyc.js";
 import { mapRawObjects } from "./mapper.js";
+import { sortDateTime } from "./search.js";
 
 var { TOKEN, ID_CHAT_BAU, LAST_ID_MESSAGE } = localStorage.get("config");
 
-export const SETTED_LAST_ID_MESSAGE = LAST_ID_MESSAGE;
+const LAST_ID_DINAMYC = new Dinamyc(LAST_ID_MESSAGE);
 
 export function setLastId(last) {
     LAST_ID_MESSAGE = last
-    console.log("Ultimo ID de Mensagem requisitado: " + last);
-}
-
-function getLastId() {
-    return LAST_ID_MESSAGE;
 }
 
 var headers = {
@@ -25,7 +22,9 @@ async function GET_LOG(logChannel) {
         .then(data => {
             if (data.length == 0) return [];
             console.log("Running...");
-            setLastId(data[0].id);
+            LAST_ID_DINAMYC.value = data[0].id;
+            console.log("Ultimo ID de Mensagem requisitado: " + LAST_ID_DINAMYC.value);
+            console.log(mapRawObjects(data));
             return mapRawObjects(data)
         })
         .catch(error => {
@@ -45,13 +44,16 @@ export async function GET_ALL_LOG({ security, limit } = { security: true, limit:
         }
         count++;
 
-        let url = `https://discord.com/api/v9/channels/${ID_CHAT_BAU}/messages?after=${getLastId()}&limit=${limit}`;
+        let wichID = count === 1 ? LAST_ID_DINAMYC.setted : LAST_ID_DINAMYC.value;
+
+        let url = `https://discord.com/api/v9/channels/${ID_CHAT_BAU}/messages?after=${wichID}&limit=${limit}`;
         let valor = await GET_LOG(url);
         if (valor.length === 0) {
             flag = false;
             console.log("Requisições finalizadas!");    
         }
-        retorno.push(...valor);
+        retorno = retorno.concat(valor);
     }
+    await Promise.all(retorno);
     return retorno;
 }

@@ -62,6 +62,16 @@ export class Table {
         this.data = data;
         let header = Object.keys(this.data[0]);
 
+
+        let elHeader = this.element.querySelector(".thead");
+        elHeader.textContent = "";
+        let ths = header.map( head => {
+            let th = document.createElement("th");
+            th.textContent = head;
+            return th;
+        });
+        ths.forEach( th => elHeader.appendChild(th));
+
         let el = this.element.querySelector(".tbody");
         el.textContent = "";
         this.data.forEach( item => {

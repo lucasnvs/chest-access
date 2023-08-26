@@ -15,7 +15,7 @@ export function mapRawObjects(data) {
         }
         while ((secondmatch = regex.exec(input)) !== null) {
             const key = secondmatch[1].toUpperCase();
-            const value = secondmatch[2];
+            const value = secondmatch[2].trim();
             object[key] = value;
         }
 
