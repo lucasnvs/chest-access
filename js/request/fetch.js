@@ -52,8 +52,8 @@ export async function GET_ALL_LOG({ security, limit } = { security: true, limit:
             flag = false;
             console.log("Requisições finalizadas!");    
         }
-        retorno = retorno.concat(valor);
+        retorno = retorno.concat(await valor);
     }
-    await Promise.all(retorno);
+
     return retorno;
 }

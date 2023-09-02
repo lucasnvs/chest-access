@@ -4,43 +4,42 @@ import { mapItem } from "./mapper.js";
 var ITEM_SEARCHED = "Folha de Coca"; // fazer choice
 
 
-function formatDateTime(dateTime) {
-    const dateParts = dateTime.split("/");
-    const formattedDate = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
-    return formattedDate;
-}
+// function formatDateTime(dateTime) {
+//     const dateParts = dateTime.split("/");
+//     const formattedDate = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
+//     return formattedDate;
+// }
 
-export function sortDateTime(all_log) {
-        let dates = [];
-        dates.push(...all_log.map(item => {
-            let formattedDate = formatDateTime(item.DATA);
-            return {date: new Date(formattedDate), partner: item.PASSAPORTE};
-        })); // Coletando as datas
+// export function sortDateTime(all_log) {
+//         let dates = [];
+//         dates.push(...all_log.map(item => {
+//             let formattedDate = formatDateTime(item.DATA);
+//             return {date: new Date(formattedDate), partner: item.PASSAPORTE};
+//         })); // Coletando as datas
 
-        // Ordenando as datas
-        dates.map(dateOBJ => dateOBJ.date).sort((a, b) => a - b);
-        console.log(dates);
+//         // Ordenando as datas
+//         dates.map(dateOBJ => dateOBJ.date).sort((a, b) => a - b);
+//         console.log(dates);
 
-        // Construindo o array de registros de log ordenados por data
-        const sortedLogs = dates.map(dateOBJ => {
+//         // Construindo o array de registros de log ordenados por data
+//         const sortedLogs = dates.map(dateOBJ => {
 
-            const log = all_log.find(item => {
-                const logDate = new Date(formatDateTime(item.DATA)).getTime();
-                const logPartner = item.PASSAPORTE;
+//             const log = all_log.find(item => {
+//                 const logDate = new Date(formatDateTime(item.DATA)).getTime();
+//                 const logPartner = item.PASSAPORTE;
                 
-                return logDate === dateOBJ.date.getTime() && logPartner === dateOBJ.partner;
-            });
-            return log;
-        });
+//                 return logDate === dateOBJ.date.getTime() && logPartner === dateOBJ.partner;
+//             });
+//             return log;
+//         });
         
-        return sortedLogs;
-}
+//         return sortedLogs;
+// }
 
 export async function getPersonLog(idName, all) {
     if(all.length <= 0) {
         console.log("entrou")
-        all = await GET_ALL_LOG({ security: false, limit: 100});
-        all = sortDateTime(all);
+        all = await GET_ALL_LOG({ security: false, limit: 100 });
         _LOG_.value = all;
     }
     console.log(all);
