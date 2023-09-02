@@ -1,6 +1,5 @@
 import { Dinamyc } from "../Dinamyc.js";
 import { mapRawObjects } from "./mapper.js";
-import { sortDateTime } from "./search.js";
 
 var { TOKEN, ID_CHAT_BAU, LAST_ID_MESSAGE } = localStorage.get("config");
 
@@ -52,7 +51,7 @@ export async function GET_ALL_LOG({ security, limit } = { security: true, limit:
             flag = false;
             console.log("Requisições finalizadas!");    
         }
-        retorno = retorno.concat(await valor);
+        retorno = retorno.concat(valor);
     }
 
     return retorno;
